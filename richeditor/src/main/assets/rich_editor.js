@@ -295,11 +295,20 @@ RE.focus = function() {
 
 RE.blurFocus = function() {
     RE.editor.blur();
+    RE.updatePlaceholder();
 }
 
 RE.removeFormat = function() {
     document.execCommand('removeFormat', false, null);
 }
+
+RE.updatePlaceholder = function() {
+    if (RE.editor.innerHTML.indexOf('img') !== -1 || (RE.editor.textContent.length > 0 && RE.editor.innerHTML.length > 0)) {
+        RE.editor.classList.remove("placeholder");
+    } else {
+        RE.editor.classList.add("placeholder");
+    }
+};
 
 // Event Listeners
 RE.editor.addEventListener("input", RE.callback);
