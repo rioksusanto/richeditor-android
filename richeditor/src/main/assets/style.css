@@ -29,6 +29,12 @@ body {
   min-height:100%;
 }
 
+img {
+  border: 0;
+  max-width: 300px;
+  max-height: 200px;
+}
+
 #editor {
   display: table-cell;
   outline: 0px solid transparent;
