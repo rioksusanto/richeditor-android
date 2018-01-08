@@ -225,6 +225,14 @@ RE.backuprange = function(){
     }
 }
 
+RE.rangeSelectionExists = function() {
+    var sel = document.getSelection();
+    if (sel && sel.type == "Range") {
+        return true;
+    }
+    return false;
+};
+
 RE.restorerange = function(){
     var selection = window.getSelection();
     selection.removeAllRanges();
