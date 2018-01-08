@@ -24,7 +24,10 @@ RE.currentSelection = {
 
 RE.editor = document.getElementById('editor');
 
-document.addEventListener("selectionchange", function() { RE.backuprange(); });
+document.addEventListener("selectionchange", function() {
+    RE.backuprange();
+    RE.enabledEditingItems();
+});
 
 // Initializations
 RE.callback = function() {
@@ -221,7 +224,8 @@ RE.backuprange = function(){
           "startContainer": range.startContainer,
           "startOffset": range.startOffset,
           "endContainer": range.endContainer,
-          "endOffset": range.endOffset};
+          "endOffset": range.endOffset
+      };
     }
 }
 
@@ -319,11 +323,39 @@ RE.updatePlaceholder = function() {
 };
 
 // Event Listeners
-RE.editor.addEventListener("input", RE.callback);
+RE.editor.addEventListener("input", function() {
+    RE.enabledEditingItems();
+});
 RE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
         RE.enabledEditingItems(e);
     }
 });
-RE.editor.addEventListener("click", RE.enabledEditingItems);
+RE.editor.addEventListener("click", RE.callback);
+
+window.addEventListener("keydown", function(key) {
+
+    /* When p tags not used yet, format current block with p
+     tags, so that each line break will use p tags later on */
+    if(document.queryCommandValue("formatBlock") != 'p' &&
+        !document.queryCommandState("insertOrderedList") &&
+        !document.queryCommandState("insertUnorderedList")) {
+        document.execCommand('formatBlock', false, 'p');
+    }
+
+    /* Ensure <p> tags are used on line breaks
+     (except when selected text contains a list) */
+    if(key.keyCode == '13' &&
+         !document.queryCommandState("insertOrderedList") &&
+         !document.queryCommandState("insertUnorderedList")) {
+
+        /* When p tags not used yet, format current block with p
+         tags, so that each line break will use p tags later on */
+        if(document.queryCommandValue("formatBlock") != 'p') {
+            document.execCommand('formatBlock', false, 'p');
+            key.preventDefault();
+            RE.insertHTML("<br>");
+        }
+    }
+});

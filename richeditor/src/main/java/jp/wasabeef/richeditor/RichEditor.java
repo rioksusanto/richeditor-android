@@ -384,6 +384,10 @@ public class RichEditor extends WebView {
     exec("javascript:RE.focus();");
   }
 
+  public void hasSelection(ValueCallback<String> resultCallback) {
+    runJS("javascript:RE.rangeSelectionExists();", resultCallback);
+  }
+
   public void clearFocusEditor() {
     exec("javascript:RE.blurFocus();");
   }
