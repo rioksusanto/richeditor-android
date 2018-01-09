@@ -27,6 +27,7 @@ RE.editor = document.getElementById('editor');
 document.addEventListener("selectionchange", function() {
     RE.backuprange();
     RE.enabledEditingItems();
+    setTimeout(function() { RE.callback(); }, 500);
 });
 
 // Initializations
@@ -323,9 +324,6 @@ RE.updatePlaceholder = function() {
 };
 
 // Event Listeners
-RE.editor.addEventListener("input", function() {
-    RE.enabledEditingItems();
-});
 RE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
@@ -335,6 +333,7 @@ RE.editor.addEventListener("keyup", function(e) {
 RE.editor.addEventListener("click", RE.callback);
 
 window.addEventListener("keydown", function(key) {
+    RE.backuprange();
 
     /* When p tags not used yet, format current block with p
      tags, so that each line break will use p tags later on */
