@@ -384,6 +384,10 @@ public class RichEditor extends WebView {
     exec("javascript:RE.focus();");
   }
 
+  public void getInnerHtml(ValueCallback<String> resultCallback) {
+    runJS("javascript:RE.getHtml();", resultCallback);
+  }
+
   public void hasSelection(ValueCallback<String> resultCallback) {
     runJS("javascript:RE.rangeSelectionExists();", resultCallback);
   }

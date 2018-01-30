@@ -334,6 +334,7 @@ RE.editor.addEventListener("click", RE.callback);
 
 window.addEventListener("keydown", function(key) {
     RE.backuprange();
+    RE.callback();
 
     /* When p tags not used yet, format current block with p
      tags, so that each line break will use p tags later on */
